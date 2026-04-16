@@ -21,6 +21,18 @@ Use SemVer tags with explicit prefixes:
 
 Tags should point to commits that are **rebased/merged onto the latest trunk policy** whenever practical (pack branches should track `develop` regularly; see `docs/language-branch-strategy.md`).
 
+## Published pins (initial)
+
+These tags exist to pin the first documented hybrid adoption + pack README integration workflow:
+
+- `framework-v0.1.0` on `develop`
+- `pack-kotlin-v0.1.0` on `kotlin`
+- `pack-python-v0.1.0` on `python`
+- `pack-android-v0.1.0` on `android`
+- `pack-kmp-v0.1.0` on `kmp`
+
+Copy/paste release note templates live under `docs/release-notes/` (start at `docs/release-notes/README.md`).
+
 ## GitHub Releases policy
 
 For each tag:
@@ -35,15 +47,16 @@ For each tag:
 
 1. Ensure the branch is up to date with the intended trunk baseline (`develop` for trunk; `develop` merged/rebased into pack branches for packs).
 2. Confirm docs are accurate for adoption (`README.md`, `docs/downstream-import-contract.md`).
-3. Choose the next SemVer version:
+3. Draft consumer-facing notes (start from `docs/release-notes/` templates when available).
+4. Choose the next SemVer version:
    - **MAJOR**: breaking contract changes (agent id renames, routing ownership changes, incompatible `agents.yml` schema expectations)
    - **MINOR**: additive agents/skills, new delegation targets, new docs capabilities
    - **PATCH**: clarifications, non-breaking fixes, small skill text tweaks
-4. Create an annotated tag on the correct branch tip:
+5. Create an annotated tag on the correct branch tip:
    - `git tag -a framework-vX.Y.Z -m "framework vX.Y.Z"`
    - `git tag -a pack-kotlin-vX.Y.Z -m "kotlin pack vX.Y.Z"` (example)
-5. Push tags: `git push origin <tagname>`
-6. Create the GitHub Release from the tag and paste consumer-facing notes.
+6. Push tags: `git push origin <tagname>`
+7. Create the GitHub Release from the tag and paste consumer-facing notes.
 
 ## Relationship to `agents.yml` `version:` field
 
