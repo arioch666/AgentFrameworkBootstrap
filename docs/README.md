@@ -5,6 +5,7 @@
 - `docs/language-branch-strategy.md` - trunk-first branching and rebase model for language/platform agent packs.
 - `docs/downstream-import-contract.md` - how other projects consume this framework and extend `agents.yml`.
 - `docs/releases.md` - tag naming, GitHub Releases expectations, and consumer-facing upgrade notes.
+- `docs/release-notes/README.md` - copy/paste release note templates for GitHub Releases.
 - `docs/open-source-readiness.md` - future release-readiness checklist and documentation plan.
 
 ## Spec Kit Structure
