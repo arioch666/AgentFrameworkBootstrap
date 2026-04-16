@@ -1,7 +1,9 @@
 # tradingpatternbot
 
-TradingPatternBot is a pattern-analysis project that now includes a cross-platform,
-Spec Kit-aligned multi-agent execution framework for planning and delivery.
+TradingPatternBot is the home of a language-agnostic, platform-agnostic,
+Spec Kit-aligned multi-agent framework for planning and delivery. The repository
+originated from trading-pattern analysis work, but the framework in this trunk is
+designed to be reusable across downstream projects.
 
 ## What This Repo Contains
 
@@ -9,7 +11,7 @@ Spec Kit-aligned multi-agent execution framework for planning and delivery.
 - Shared routing and delegation in `agents.yml`
 - Per-agent definitions under `.agents/`
 - Agent memory and optional storage for long-running continuity
-- Documentation for architecture, lifecycle, and usage patterns
+- Documentation for architecture, lifecycle, onboarding, branching, import, and future open-source readiness
 
 ## Agent Framework Layout
 
@@ -26,6 +28,7 @@ Spec Kit-aligned multi-agent execution framework for planning and delivery.
 - Governance/quality agents: compliance-guard, quality-gate, deduplication-observer
 - Continuity agents: quota-monitor, scheduler, continuity-coordinator, state-checkpoint, heartbeat-watchdog
 - Evolution agents: architecture-advisor, agent-factory, speckit-best-practices
+- Onboarding agents: onboarding
 
 ## Workflow Principles
 
@@ -40,6 +43,9 @@ Spec Kit-aligned multi-agent execution framework for planning and delivery.
 - `docs/README.md`
 - `docs/agents-framework.md`
 - `docs/agent-lifecycle-examples.md`
+- `docs/language-branch-strategy.md`
+- `docs/downstream-import-contract.md`
+- `docs/open-source-readiness.md`
 
 ## Quick Start
 
@@ -61,6 +67,16 @@ Then register the agent in `agents.yml`:
 - define routing/delegation updates in `routing` and/or `delegation_matrix`
 - add lifecycle triggers in the agent's `agent.yml`
 
+### 1.5) Onboard To The Framework
+
+Use the onboarding materials first:
+
+1. Read `docs/README.md`
+2. Read `docs/agents-framework.md`
+3. Read `docs/agent-lifecycle-examples.md`
+4. Read `docs/downstream-import-contract.md`
+5. Use the onboarding agent prompts in `.agents/onboarding/agent.md`
+
 ### 2) Run a Plan Cycle
 
 Use the standard Spec Kit flow:
@@ -81,3 +97,16 @@ When quota approaches threshold (default 80%):
 3. `state-checkpoint` persists resumable state
 4. `scheduler` sets resume window
 5. `continuity-coordinator` resumes from checkpoint after refresh
+
+## Branch Model
+
+`develop` is the agnostic trunk. Language/platform-specific agent packs should be
+branched from this trunk and rebased from it regularly:
+
+- `kotlin`
+- `android`
+- `kmp`
+- `python`
+
+Those branches should contain only language/platform-specific agents and skills,
+not runtime project code or framework dependencies.

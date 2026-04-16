@@ -1,5 +1,11 @@
 # Agent Lifecycle Examples
 
+## Example: New User Onboarding
+
+1. `onboarding` provides the reading path
+2. user reads framework + lifecycle + import docs
+3. `onboarding` suggests sample prompts and first safe actions
+
 ## Example: Normal Planning Run
 
 1. `orchestration` receives request

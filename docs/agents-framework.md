@@ -9,6 +9,9 @@ Provide a reusable multi-agent architecture for Cursor, Gemini, GPT, and other r
 - trigger-driven orchestration
 - quota-aware multi-day continuity
 
+This trunk is intentionally language-agnostic and platform-agnostic. Language or
+platform specialization belongs on dedicated branches, not on `develop`.
+
 ## Structure
 
 - `agents.yml`
@@ -43,6 +46,7 @@ Support agents:
 - `state-checkpoint`
 - `heartbeat-watchdog`
 - `architecture-advisor`
+- `onboarding`
 
 ## Quota Continuity
 
@@ -57,4 +61,13 @@ When threshold is reached:
 5. pause execution
 
 On refresh, orchestration resumes from checkpoint after drift validation.
+
+## Onboarding
+
+The `onboarding` agent provides:
+
+- what to read first
+- sample prompts/commands
+- quick-start guidance
+- links to branch strategy and downstream import documentation
 

@@ -160,3 +160,7 @@ agents:
     path: .agents/architecture-advisor
     enabled: true
     priority: medium
+  - id: onboarding
+    path: .agents/onboarding
+    enabled: true
+    priority: medium
