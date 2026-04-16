@@ -1,0 +1,21 @@
+id: orchestration
+name: orchestration
+purpose: "Routes work to the best agent(s) and coordinates execution order."
+inputs:
+  - user_request
+  - task_context
+  - orchestration_context
+outputs:
+  - recommendations
+  - actions
+memory_path: .agents/orchestration/.memory/memory.md
+agent_file: .agents/orchestration/agent.md
+skills:
+  shared:
+    - .agents/.skills/spec-kit-workflow.md
+  local: []
+triggers:
+  - start_of_plan
+  - start_of_execution
+  - resume_window_open
+delegation_rules: []

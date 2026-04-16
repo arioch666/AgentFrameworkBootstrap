@@ -1,0 +1,19 @@
+id: heartbeat-watchdog
+name: heartbeat-watchdog
+purpose: "Monitors scheduled resumes and escalates missed windows."
+inputs:
+  - user_request
+  - task_context
+  - orchestration_context
+outputs:
+  - recommendations
+  - actions
+memory_path: .agents/heartbeat-watchdog/.memory/memory.md
+agent_file: .agents/heartbeat-watchdog/agent.md
+skills:
+  shared:
+    - .agents/.skills/spec-kit-workflow.md
+  local: []
+triggers:
+  - resume_window_missed
+delegation_rules: []

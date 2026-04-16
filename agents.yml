@@ -1,0 +1,162 @@
+version: 1
+framework:
+  name: tradingpatternbot-agent-framework
+  mode: hybrid
+  description: >-
+    Cross-platform multi-agent framework combining a central registry (agents.yml)
+    with per-agent machine-readable configs (agent.yml), per-agent instructions
+    (agent.md), memory, and optional storage.
+  compatibility:
+    runtimes:
+      - cursor
+      - gemini
+      - gpt
+      - generic
+  lifecycle_events:
+    - start_of_plan
+    - end_of_plan
+    - start_of_execution
+    - end_of_execution
+    - post_implement
+    - docs_change
+    - drift_detected
+    - quota_warn_80
+    - quota_pause_required
+    - quota_refresh_detected
+    - resume_at_time
+    - resume_window_open
+    - resume_window_missed
+  default_policies:
+    require_spec_kit_flow: true
+    require_index_update_task: true
+    observer_summary_at_end: true
+    architecture_review_at_end: true
+
+routing:
+  entrypoint_agent: orchestration
+  trigger_ingest_agent: trigger-monitor
+  quota_ingest_agent: quota-monitor
+  continuity_owner: continuity-coordinator
+  scheduler_owner: scheduler
+  fallback_agent: handoff-summarizer
+
+delegation_matrix:
+  orchestration:
+    can_delegate_to:
+      - planning
+      - parallelization
+      - observer
+      - deduplication-observer
+      - indexing
+      - speckit-best-practices
+      - agent-factory
+      - compliance-guard
+      - handoff-summarizer
+      - quality-gate
+      - trigger-monitor
+      - quota-monitor
+      - scheduler
+      - continuity-coordinator
+      - state-checkpoint
+      - heartbeat-watchdog
+      - architecture-advisor
+  planning:
+    must_append_tasks:
+      - name: index-update
+        owner_agent: indexing
+  trigger-monitor:
+    dispatches_to: orchestration
+  quota-monitor:
+    continuity_trigger_agent: planning
+    schedule_trigger_agent: scheduler
+  scheduler:
+    missed_window_handler: heartbeat-watchdog
+
+quota_policy:
+  warning_threshold_percent: 80
+  on_threshold:
+    notify_user: true
+    create_continuity_mini_plan: true
+    persist_checkpoint: true
+    schedule_resume_window: true
+    pause_execution: true
+  on_refresh:
+    revalidate_drift: true
+    resume_from_checkpoint: true
+  on_missed_resume:
+    watchdog_escalation: true
+    orchestration_retry_backoff: true
+
+agents:
+  - id: observer
+    path: .agents/observer
+    enabled: true
+    priority: medium
+  - id: orchestration
+    path: .agents/orchestration
+    enabled: true
+    priority: critical
+  - id: parallelization
+    path: .agents/parallelization
+    enabled: true
+    priority: high
+  - id: planning
+    path: .agents/planning
+    enabled: true
+    priority: critical
+  - id: agent-factory
+    path: .agents/agent-factory
+    enabled: true
+    priority: high
+  - id: deduplication-observer
+    path: .agents/deduplication-observer
+    enabled: true
+    priority: medium
+  - id: indexing
+    path: .agents/indexing
+    enabled: true
+    priority: high
+  - id: speckit-best-practices
+    path: .agents/speckit-best-practices
+    enabled: true
+    priority: high
+  - id: compliance-guard
+    path: .agents/compliance-guard
+    enabled: true
+    priority: high
+  - id: handoff-summarizer
+    path: .agents/handoff-summarizer
+    enabled: true
+    priority: medium
+  - id: quality-gate
+    path: .agents/quality-gate
+    enabled: true
+    priority: high
+  - id: trigger-monitor
+    path: .agents/trigger-monitor
+    enabled: true
+    priority: high
+  - id: quota-monitor
+    path: .agents/quota-monitor
+    enabled: true
+    priority: high
+  - id: scheduler
+    path: .agents/scheduler
+    enabled: true
+    priority: high
+  - id: continuity-coordinator
+    path: .agents/continuity-coordinator
+    enabled: true
+    priority: high
+  - id: state-checkpoint
+    path: .agents/state-checkpoint
+    enabled: true
+    priority: high
+  - id: heartbeat-watchdog
+    path: .agents/heartbeat-watchdog
+    enabled: true
+    priority: medium
+  - id: architecture-advisor
+    path: .agents/architecture-advisor
+    enabled: true
+    priority: medium

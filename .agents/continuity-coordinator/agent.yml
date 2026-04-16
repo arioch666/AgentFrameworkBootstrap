@@ -1,0 +1,21 @@
+id: continuity-coordinator
+name: continuity-coordinator
+purpose: "Owns pause/resume lifecycle and validates safe re-entry after long pauses."
+inputs:
+  - user_request
+  - task_context
+  - orchestration_context
+outputs:
+  - recommendations
+  - actions
+memory_path: .agents/continuity-coordinator/.memory/memory.md
+agent_file: .agents/continuity-coordinator/agent.md
+skills:
+  shared:
+    - .agents/.skills/spec-kit-workflow.md
+  local: []
+triggers:
+  - quota_pause_required
+  - quota_refresh_detected
+  - resume_window_open
+delegation_rules: []

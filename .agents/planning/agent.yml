@@ -1,0 +1,20 @@
+id: planning
+name: planning
+purpose: "Builds structured plans and ensures index update tasks are appended."
+inputs:
+  - user_request
+  - task_context
+  - orchestration_context
+outputs:
+  - recommendations
+  - actions
+memory_path: .agents/planning/.memory/memory.md
+agent_file: .agents/planning/agent.md
+skills:
+  shared:
+    - .agents/.skills/spec-kit-workflow.md
+  local: []
+triggers:
+  - start_of_plan
+  - end_of_plan
+delegation_rules: []

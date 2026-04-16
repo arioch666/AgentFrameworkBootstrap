@@ -1,0 +1,20 @@
+id: speckit-best-practices
+name: speckit-best-practices
+purpose: "Provides immediate guidance to keep usage aligned with Spec Kit best practices."
+inputs:
+  - user_request
+  - task_context
+  - orchestration_context
+outputs:
+  - recommendations
+  - actions
+memory_path: .agents/speckit-best-practices/.memory/memory.md
+agent_file: .agents/speckit-best-practices/agent.md
+skills:
+  shared:
+    - .agents/.skills/spec-kit-workflow.md
+  local: []
+triggers:
+  - start_of_plan
+  - start_of_execution
+delegation_rules: []

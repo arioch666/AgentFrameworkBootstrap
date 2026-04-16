@@ -1,0 +1,19 @@
+id: parallelization
+name: parallelization
+purpose: "Designs safe and efficient task parallelization strategies."
+inputs:
+  - user_request
+  - task_context
+  - orchestration_context
+outputs:
+  - recommendations
+  - actions
+memory_path: .agents/parallelization/.memory/memory.md
+agent_file: .agents/parallelization/agent.md
+skills:
+  shared:
+    - .agents/.skills/spec-kit-workflow.md
+  local: []
+triggers:
+  - start_of_plan
+delegation_rules: []

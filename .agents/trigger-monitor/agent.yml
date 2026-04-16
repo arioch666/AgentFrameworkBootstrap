@@ -1,0 +1,22 @@
+id: trigger-monitor
+name: trigger-monitor
+purpose: "Watches for triggering conditions and routes activation events to orchestration."
+inputs:
+  - user_request
+  - task_context
+  - orchestration_context
+outputs:
+  - recommendations
+  - actions
+memory_path: .agents/trigger-monitor/.memory/memory.md
+agent_file: .agents/trigger-monitor/agent.md
+skills:
+  shared:
+    - .agents/.skills/spec-kit-workflow.md
+  local: []
+triggers:
+  - start_of_plan
+  - start_of_execution
+  - docs_change
+  - drift_detected
+delegation_rules: []

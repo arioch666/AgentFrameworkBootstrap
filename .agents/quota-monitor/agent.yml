@@ -1,0 +1,24 @@
+id: quota-monitor
+name: quota-monitor
+purpose: "Tracks quota usage and triggers continuity flow near threshold."
+inputs:
+  - user_request
+  - task_context
+  - orchestration_context
+outputs:
+  - recommendations
+  - actions
+memory_path: .agents/quota-monitor/.memory/memory.md
+agent_file: .agents/quota-monitor/agent.md
+storage_paths:
+  - .agents/quota-monitor/storage/
+skills:
+  shared:
+    - .agents/.skills/spec-kit-workflow.md
+  local: []
+triggers:
+  - start_of_execution
+  - quota_warn_80
+  - quota_pause_required
+  - quota_refresh_detected
+delegation_rules: []

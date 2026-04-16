@@ -1,0 +1,22 @@
+id: state-checkpoint
+name: state-checkpoint
+purpose: "Persists durable checkpoint snapshots for reliable multi-day resume."
+inputs:
+  - user_request
+  - task_context
+  - orchestration_context
+outputs:
+  - recommendations
+  - actions
+memory_path: .agents/state-checkpoint/.memory/memory.md
+agent_file: .agents/state-checkpoint/agent.md
+storage_paths:
+  - .agents/state-checkpoint/storage/
+skills:
+  shared:
+    - .agents/.skills/spec-kit-workflow.md
+  local: []
+triggers:
+  - quota_pause_required
+  - end_of_execution
+delegation_rules: []
