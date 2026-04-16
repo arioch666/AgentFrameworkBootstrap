@@ -90,6 +90,29 @@ Read the full contract and merge rules in `docs/downstream-import-contract.md` a
 - Choose **template** when you are creating a **new** repo and want the baseline structure immediately.
 - Choose **manual vendoring** when you already have a repo, or when you want **selective** adoption (only some agents/skills).
 
+## Android pack branch (`android`)
+
+You are viewing the **Android** platform agent pack branch. It contains Android-specific advisor agents under `.agents/android-*` plus Android-specific skills under `.agents/.skills/android-*`.
+
+Pack overview: `docs/android-agent-pack.md`
+
+### Downstream integration (manual vendoring)
+
+1. Vendor the **trunk** from `develop` at a pinned `framework-v*` tag (see `docs/releases.md`).
+2. Vendor this **Android pack** from the `android` branch at a pinned `pack-android-v*` tag.
+3. Copy Android pack paths into your project:
+   - `.agents/android-architecture-advisor/`
+   - `.agents/android-testing-and-test-writing-advisor/`
+   - `.agents/android-debugging-advisor/`
+   - `.agents/android-data-fixtures-advisor/`
+   - `.agents/android-best-practices-advisor/`
+   - `.agents/.skills/android-architecture-guidance.md`
+   - `.agents/.skills/android-testing-test-writing-guidance.md`
+   - `.agents/.skills/android-debugging-guidance.md`
+   - `.agents/.skills/android-data-fixtures-guidance.md`
+   - `.agents/.skills/android-best-practices-guidance.md`
+4. Merge the pack’s `agents.yml` additions into your project `agents.yml` (agent entries + `delegation_matrix.orchestration.can_delegate_to`).
+
 ## Quick Start
 
 ### 1) Add a New Agent
