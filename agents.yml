@@ -60,6 +60,11 @@ delegation_matrix:
       - state-checkpoint
       - heartbeat-watchdog
       - architecture-advisor
+      - kmp-architecture-advisor
+      - kmp-testing-and-test-writing-advisor
+      - kmp-debugging-advisor
+      - kmp-data-fixtures-advisor
+      - kmp-platform-boundary-advisor
   planning:
     must_append_tasks:
       - name: index-update
@@ -162,5 +167,25 @@ agents:
     priority: medium
   - id: onboarding
     path: .agents/onboarding
+    enabled: true
+    priority: medium
+  - id: kmp-architecture-advisor
+    path: .agents/kmp-architecture-advisor
+    enabled: true
+    priority: medium
+  - id: kmp-testing-and-test-writing-advisor
+    path: .agents/kmp-testing-and-test-writing-advisor
+    enabled: true
+    priority: medium
+  - id: kmp-debugging-advisor
+    path: .agents/kmp-debugging-advisor
+    enabled: true
+    priority: medium
+  - id: kmp-data-fixtures-advisor
+    path: .agents/kmp-data-fixtures-advisor
+    enabled: true
+    priority: medium
+  - id: kmp-platform-boundary-advisor
+    path: .agents/kmp-platform-boundary-advisor
     enabled: true
     priority: medium

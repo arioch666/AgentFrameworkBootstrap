@@ -1,0 +1,23 @@
+id: kmp-architecture-advisor
+name: kmp-architecture-advisor
+purpose: "Provides Kotlin Multiplatform architecture guidance aligned with Spec Kit planning."
+inputs:
+  - user_request
+  - task_context
+  - orchestration_context
+outputs:
+  - recommendations
+  - actions
+memory_path: .agents/kmp-architecture-advisor/.memory/memory.md
+agent_file: .agents/kmp-architecture-advisor/agent.md
+skills:
+  shared:
+    - .agents/.skills/spec-kit-workflow.md
+  local:
+    - .agents/.skills/kmp-architecture-guidance.md
+triggers:
+  - start_of_plan
+  - end_of_plan
+  - start_of_execution
+  - end_of_execution
+delegation_rules: []

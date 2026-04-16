@@ -1,0 +1,23 @@
+id: kmp-platform-boundary-advisor
+name: kmp-platform-boundary-advisor
+purpose: "Provides guidance on platform boundary design in KMP (expect/actual, interfaces, adapters)."
+inputs:
+  - user_request
+  - task_context
+  - orchestration_context
+outputs:
+  - recommendations
+  - actions
+memory_path: .agents/kmp-platform-boundary-advisor/.memory/memory.md
+agent_file: .agents/kmp-platform-boundary-advisor/agent.md
+skills:
+  shared:
+    - .agents/.skills/spec-kit-workflow.md
+  local:
+    - .agents/.skills/kmp-platform-boundary-guidance.md
+triggers:
+  - start_of_plan
+  - end_of_plan
+  - start_of_execution
+  - end_of_execution
+delegation_rules: []
