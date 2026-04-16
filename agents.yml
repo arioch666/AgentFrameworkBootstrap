@@ -60,6 +60,11 @@ delegation_matrix:
       - state-checkpoint
       - heartbeat-watchdog
       - architecture-advisor
+      - kotlin-architecture-advisor
+      - kotlin-testing-and-test-writing-advisor
+      - kotlin-debugging-advisor
+      - kotlin-data-fixtures-advisor
+      - kotlin-style-and-packaging-advisor
   planning:
     must_append_tasks:
       - name: index-update
@@ -162,5 +167,25 @@ agents:
     priority: medium
   - id: onboarding
     path: .agents/onboarding
+    enabled: true
+    priority: medium
+  - id: kotlin-architecture-advisor
+    path: .agents/kotlin-architecture-advisor
+    enabled: true
+    priority: medium
+  - id: kotlin-testing-and-test-writing-advisor
+    path: .agents/kotlin-testing-and-test-writing-advisor
+    enabled: true
+    priority: medium
+  - id: kotlin-debugging-advisor
+    path: .agents/kotlin-debugging-advisor
+    enabled: true
+    priority: medium
+  - id: kotlin-data-fixtures-advisor
+    path: .agents/kotlin-data-fixtures-advisor
+    enabled: true
+    priority: medium
+  - id: kotlin-style-and-packaging-advisor
+    path: .agents/kotlin-style-and-packaging-advisor
     enabled: true
     priority: medium
