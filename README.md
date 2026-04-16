@@ -1,9 +1,9 @@
-# tradingpatternbot
+# AgentFrameworkBootstrap
 
-TradingPatternBot is the home of a language-agnostic, platform-agnostic,
-Spec Kit-aligned multi-agent framework for planning and delivery. The repository
-originated from trading-pattern analysis work, but the framework in this trunk is
-designed to be reusable across downstream projects.
+AgentFrameworkBootstrap provides a language-agnostic, platform-agnostic,
+Spec Kit-aligned multi-agent framework for planning and delivery. Downstream
+projects adopt the registry and markdown assets to standardize agent workflows,
+delegation, continuity, and Spec Kit governance.
 
 ## What This Repo Contains
 
