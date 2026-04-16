@@ -1,0 +1,43 @@
+name: Spec Kit Guard
+
+on:
+  pull_request:
+    branches: ["*"]
+
+jobs:
+  spec-kit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Validate spec/plan/tasks presence
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          spec_root = Path(".specify/specs")
+          if not spec_root.exists():
+            print("No .specify/specs directory; skipping checks.")
+            raise SystemExit(0)
+
+          missing = []
+          for feature_dir in sorted([p for p in spec_root.iterdir() if p.is_dir()]):
+            spec_md = feature_dir / "spec.md"
+            plan_md = feature_dir / "plan.md"
+            tasks_md = feature_dir / "tasks.md"
+
+            # Only enforce when a spec exists for an initiative.
+            if spec_md.exists():
+              for required in [plan_md, tasks_md]:
+                if not required.exists():
+                  missing.append(f"{feature_dir.relative_to(Path('.'))}: missing {required.name}")
+
+          if missing:
+            print("Spec Kit artifact hygiene failed:")
+            for line in missing:
+              print(f" - {line}")
+            raise SystemExit(1)
+
+          print("Spec Kit artifact hygiene looks good.")
+          PY
+

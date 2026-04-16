@@ -22,6 +22,23 @@ designed to be reusable across downstream projects.
 - Optional per-agent storage: `.agents/<agent-name>/storage/`
 - Shared reusable skills: `.agents/.skills/*.md`
 
+## How Work Gets Done (Spec Kit)
+
+This repo uses [GitHub Spec Kit](https://github.com/github/spec-kit) to drive all meaningful changes (code and documentation) through the same lifecycle:
+
+1. Establish governance/principles (only when needed)
+   - `.specify/memory/constitution.md`
+2. Create/update the initiative spec
+   - `.specify/specs/<FeatureId>/spec.md`
+3. Generate/update a technical plan
+   - `.specify/specs/<FeatureId>/plan.md`
+4. Generate/update actionable tasks
+   - `.specify/specs/<FeatureId>/tasks.md`
+5. Execute tasks
+   - `/speckit-implement`
+
+All initiative artifacts should use the same `FeatureId` (`NNN-kebab-case-short-name`).
+
 ## Current Agent Capabilities
 
 - Core workflow agents: orchestration, planning, parallelization, observer, indexing
@@ -29,13 +46,6 @@ designed to be reusable across downstream projects.
 - Continuity agents: quota-monitor, scheduler, continuity-coordinator, state-checkpoint, heartbeat-watchdog
 - Evolution agents: architecture-advisor, agent-factory, speckit-best-practices
 - Onboarding agents: onboarding
-
-## Workflow Principles
-
-- Keep work in Spec Kit order: `spec -> plan -> tasks -> implement`
-- Append an index update task at the end of each plan
-- Emit end-of-execution recommendations (observer + architecture-advisor)
-- Support multi-day execution with quota-aware pause/resume continuity
 
 ## Start Here
 

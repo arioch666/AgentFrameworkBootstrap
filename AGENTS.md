@@ -22,6 +22,19 @@ For meaningful work, maintain Spec Kit ordering:
 
 The planning agent must append a final indexing task owned by `indexing`.
 
+For non-trivial work, follow the same Spec Kit artifact flow:
+
+- `.specify/memory/constitution.md`
+- `.specify/specs/<FeatureId>/spec.md`
+- `.specify/specs/<FeatureId>/plan.md`
+- `.specify/specs/<FeatureId>/tasks.md`
+
+## FeatureId Contract
+
+All initiative artifacts must share the same `FeatureId` format:
+
+- `NNN-kebab-case-short-name`
+
 ## Onboarding
 
 - `onboarding` helps new users understand the framework, docs, and first commands.
@@ -55,4 +68,3 @@ The planning agent must append a final indexing task owned by `indexing`.
   - `kmp`
   - `python`
 - Shared fixes should land in `develop` first whenever possible.
-
