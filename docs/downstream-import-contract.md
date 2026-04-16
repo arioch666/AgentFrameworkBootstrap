@@ -14,6 +14,37 @@ Downstream projects should be able to adopt only the pieces they need.
 4. Create project-specific agents or skills as needed
 5. Append project-specific entries into `agents.yml`
 
+## Hybrid adoption (template + vendoring)
+
+Downstream adoption is intentionally **file-based** (markdown + YAML), not a package import.
+
+- **Template repository (optional)**: good for **greenfield** repos that want the baseline structure quickly.
+- **Vendoring (canonical)**: copy/merge framework files into an existing project and keep updates under control.
+
+### Pinning strategy (recommended)
+
+Pin versions using **git tags** (see `docs/releases.md`):
+
+- **Trunk pin**: a `framework-v*` tag on `develop`
+- **Pack pin** (optional): a `pack-<ecosystem>-v*` tag on the relevant long-lived branch (`kotlin`, `python`, `android`, `kmp`)
+
+When copying files, record the pinned tag(s) in your downstream repo (for example in `AGENTS.md` or an internal `FRAMEWORK_VERSIONS.md`).
+
+### Upgrade strategy
+
+1. Pick a newer trunk tag on `develop` and diff what changed under `.agents/` and `agents.yml`.
+2. If you use a language pack, pick a newer pack tag on the pack branch and diff pack-only paths.
+3. Re-run additive merges into your project `agents.yml` (avoid accidental duplication).
+
+### Merge conflict hotspots (`agents.yml`)
+
+Watch for:
+
+- duplicate `agents[].id` entries
+- duplicated `delegation_matrix.orchestration.can_delegate_to` entries
+- accidental edits to shared agent ids you intended to treat as upstream-owned
+- drift between copied `.agents/.skills/spec-kit-workflow.md` and newer trunk versions
+
 ## Language/Platform Agent Packs
 
 The language/platform agent packs live on dedicated branches:

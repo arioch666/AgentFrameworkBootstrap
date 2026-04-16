@@ -55,7 +55,40 @@ All initiative artifacts should use the same `FeatureId` (`NNN-kebab-case-short-
 - `docs/agent-lifecycle-examples.md`
 - `docs/language-branch-strategy.md`
 - `docs/downstream-import-contract.md`
+- `docs/releases.md`
 - `docs/open-source-readiness.md`
+
+## Hybrid adoption model (template + vendoring)
+
+This repo is intentionally **not a runtime library** (no package import). Downstream projects adopt it by **copying markdown assets** (`.agents/`, `.agents/.skills/`, and merging `agents.yml`).
+
+We support a **hybrid** adoption path:
+
+- **Greenfield / new repo (optional accelerator)**: use GitHub **Template repository** settings on this repo so users can click **Use this template** to bootstrap a new repository with the folder structure.
+  - Templates are a **one-time scaffold**. Upgrades still require copying/merging updated files from a pinned trunk version (see `docs/releases.md`).
+- **Brownfield / existing repo (canonical path)**: **manual vendoring** (copy files + additive YAML merges), pinned to a **tag** (recommended) or a commit SHA.
+
+Read the full contract and merge rules in `docs/downstream-import-contract.md` and the release/tag playbook in `docs/releases.md`.
+
+### Manual integration (recommended)
+
+1. Pick a **pinned trunk version** from `develop` (prefer a `framework-v*` tag; see `docs/releases.md`).
+2. Copy the trunk framework assets into your project:
+   - `.agents/` (shared agents + skills)
+   - `agents.yml` (merge into your project registry; prefer additive merges)
+   - (optional) `AGENTS.md` and relevant `docs/` pages
+3. If you need a language/platform pack, pick a **pinned pack version** from the corresponding branch (`kotlin`, `python`, `android`, `kmp`) and copy:
+   - `.agents/<pack-agent-id>/`
+   - `.agents/.skills/<pack-skill-*.md>`
+4. Merge pack additions into your `agents.yml`:
+   - append pack agent entries under `agents:`
+   - append pack agent ids under `delegation_matrix.orchestration.can_delegate_to`
+5. Keep Spec Kit artifacts local to your project under `.specify/` (this framework does not replace your project specs).
+
+### When to choose template vs manual vendoring
+
+- Choose **template** when you are creating a **new** repo and want the baseline structure immediately.
+- Choose **manual vendoring** when you already have a repo, or when you want **selective** adoption (only some agents/skills).
 
 ## Quick Start
 
