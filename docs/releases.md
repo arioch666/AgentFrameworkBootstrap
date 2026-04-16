@@ -33,6 +33,8 @@ These tags exist to pin the first documented hybrid adoption + pack README integ
 
 Copy/paste release note templates live under `docs/release-notes/` (start at `docs/release-notes/README.md`).
 
+Note: during early adoption iterations, tags may be **force-updated** to keep `v0.1.0` aligned with the branch tips that include the README + release-notes templates. Prefer pinning the **peeled commit SHA** (`git rev-parse <tag>^{}`) in downstream repos if you want immutability even if a tag moves.
+
 ## GitHub Releases policy
 
 For each tag:
