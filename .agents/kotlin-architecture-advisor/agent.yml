@@ -1,0 +1,23 @@
+id: kotlin-architecture-advisor
+name: kotlin-architecture-advisor
+purpose: "Provides Kotlin architecture and structural guidance aligned with Spec Kit planning."
+inputs:
+  - user_request
+  - task_context
+  - orchestration_context
+outputs:
+  - recommendations
+  - actions
+memory_path: .agents/kotlin-architecture-advisor/.memory/memory.md
+agent_file: .agents/kotlin-architecture-advisor/agent.md
+skills:
+  shared:
+    - .agents/.skills/spec-kit-workflow.md
+  local:
+    - .agents/.skills/kotlin-architecture-guidance.md
+triggers:
+  - start_of_plan
+  - end_of_plan
+  - start_of_execution
+  - end_of_execution
+delegation_rules: []

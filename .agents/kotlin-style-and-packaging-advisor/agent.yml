@@ -1,0 +1,23 @@
+id: kotlin-style-and-packaging-advisor
+name: kotlin-style-and-packaging-advisor
+purpose: "Recommends Kotlin style and package-structure conventions appropriate for small, testable modules."
+inputs:
+  - user_request
+  - task_context
+  - orchestration_context
+outputs:
+  - recommendations
+  - actions
+memory_path: .agents/kotlin-style-and-packaging-advisor/.memory/memory.md
+agent_file: .agents/kotlin-style-and-packaging-advisor/agent.md
+skills:
+  shared:
+    - .agents/.skills/spec-kit-workflow.md
+  local:
+    - .agents/.skills/kotlin-style-packaging-guidance.md
+triggers:
+  - start_of_plan
+  - end_of_plan
+  - start_of_execution
+  - end_of_execution
+delegation_rules: []

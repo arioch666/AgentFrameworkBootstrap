@@ -1,0 +1,23 @@
+id: kotlin-debugging-advisor
+name: kotlin-debugging-advisor
+purpose: "Suggests Kotlin debugging approaches and failure triage steps during execution."
+inputs:
+  - user_request
+  - task_context
+  - orchestration_context
+outputs:
+  - recommendations
+  - actions
+memory_path: .agents/kotlin-debugging-advisor/.memory/memory.md
+agent_file: .agents/kotlin-debugging-advisor/agent.md
+skills:
+  shared:
+    - .agents/.skills/spec-kit-workflow.md
+  local:
+    - .agents/.skills/kotlin-debugging-guidance.md
+triggers:
+  - start_of_plan
+  - end_of_plan
+  - start_of_execution
+  - end_of_execution
+delegation_rules: []

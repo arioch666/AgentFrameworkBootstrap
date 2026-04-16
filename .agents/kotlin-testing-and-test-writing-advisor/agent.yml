@@ -1,0 +1,23 @@
+id: kotlin-testing-and-test-writing-advisor
+name: kotlin-testing-and-test-writing-advisor
+purpose: "Guides Kotlin test planning and test-writing strategies aligned with the plan/tasks lifecycle."
+inputs:
+  - user_request
+  - task_context
+  - orchestration_context
+outputs:
+  - recommendations
+  - actions
+memory_path: .agents/kotlin-testing-and-test-writing-advisor/.memory/memory.md
+agent_file: .agents/kotlin-testing-and-test-writing-advisor/agent.md
+skills:
+  shared:
+    - .agents/.skills/spec-kit-workflow.md
+  local:
+    - .agents/.skills/kotlin-testing-test-writing-guidance.md
+triggers:
+  - start_of_plan
+  - end_of_plan
+  - start_of_execution
+  - end_of_execution
+delegation_rules: []

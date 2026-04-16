@@ -1,0 +1,23 @@
+id: kotlin-data-fixtures-advisor
+name: kotlin-data-fixtures-advisor
+purpose: "Helps generate Kotlin data fixtures and example inputs/outputs without coupling to runtime dependencies."
+inputs:
+  - user_request
+  - task_context
+  - orchestration_context
+outputs:
+  - recommendations
+  - actions
+memory_path: .agents/kotlin-data-fixtures-advisor/.memory/memory.md
+agent_file: .agents/kotlin-data-fixtures-advisor/agent.md
+skills:
+  shared:
+    - .agents/.skills/spec-kit-workflow.md
+  local:
+    - .agents/.skills/kotlin-data-fixtures-guidance.md
+triggers:
+  - start_of_plan
+  - end_of_plan
+  - start_of_execution
+  - end_of_execution
+delegation_rules: []
