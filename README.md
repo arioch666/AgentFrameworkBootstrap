@@ -96,6 +96,29 @@ There is **no npm/PyPI/Maven package** for this flow: obtain a **pinned tag** (c
 - Choose **template** when you are creating a **new** repo and want the baseline structure immediately.
 - Choose **manual vendoring** when you already have a repo, or when you want **selective** adoption (only some agents/skills).
 
+## Python pack branch (`python`)
+
+You are viewing the **Python** language agent pack branch. It contains Python-specific advisor agents under `.agents/python-*` plus Python-specific skills under `.agents/.skills/python-*`.
+
+Pack overview: `docs/python-agent-pack.md`
+
+### Downstream integration (manual vendoring)
+
+1. Vendor the **trunk** from `develop` at a pinned `framework-v*` tag (see `docs/releases.md`).
+2. Vendor this **Python pack** from the `python` branch at a pinned `pack-python-v*` tag.
+3. Copy Python pack paths into your project:
+   - `.agents/python-architecture-advisor/`
+   - `.agents/python-testing-and-test-writing-advisor/`
+   - `.agents/python-debugging-advisor/`
+   - `.agents/python-data-fixtures-advisor/`
+   - `.agents/python-project-layout-advisor/`
+   - `.agents/.skills/python-architecture-guidance.md`
+   - `.agents/.skills/python-testing-test-writing-guidance.md`
+   - `.agents/.skills/python-debugging-guidance.md`
+   - `.agents/.skills/python-data-fixtures-guidance.md`
+   - `.agents/.skills/python-project-layout-guidance.md`
+4. Merge the pack’s `agents.yml` additions into your project `agents.yml` (agent entries + `delegation_matrix.orchestration.can_delegate_to`).
+
 ## Quick Start
 
 ### 1) Add a New Agent
