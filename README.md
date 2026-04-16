@@ -90,6 +90,29 @@ Read the full contract and merge rules in `docs/downstream-import-contract.md` a
 - Choose **template** when you are creating a **new** repo and want the baseline structure immediately.
 - Choose **manual vendoring** when you already have a repo, or when you want **selective** adoption (only some agents/skills).
 
+## KMP pack branch (`kmp`)
+
+You are viewing the **Kotlin Multiplatform (KMP)** agent pack branch. It contains KMP-specific advisor agents under `.agents/kmp-*` plus KMP-specific skills under `.agents/.skills/kmp-*`.
+
+Pack overview: `docs/kmp-agent-pack.md`
+
+### Downstream integration (manual vendoring)
+
+1. Vendor the **trunk** from `develop` at a pinned `framework-v*` tag (see `docs/releases.md`).
+2. Vendor this **KMP pack** from the `kmp` branch at a pinned `pack-kmp-v*` tag.
+3. Copy KMP pack paths into your project:
+   - `.agents/kmp-architecture-advisor/`
+   - `.agents/kmp-testing-and-test-writing-advisor/`
+   - `.agents/kmp-debugging-advisor/`
+   - `.agents/kmp-data-fixtures-advisor/`
+   - `.agents/kmp-platform-boundary-advisor/`
+   - `.agents/.skills/kmp-architecture-guidance.md`
+   - `.agents/.skills/kmp-testing-test-writing-guidance.md`
+   - `.agents/.skills/kmp-debugging-guidance.md`
+   - `.agents/.skills/kmp-data-fixtures-guidance.md`
+   - `.agents/.skills/kmp-platform-boundary-guidance.md`
+4. Merge the pack’s `agents.yml` additions into your project `agents.yml` (agent entries + `delegation_matrix.orchestration.can_delegate_to`).
+
 ## Quick Start
 
 ### 1) Add a New Agent
