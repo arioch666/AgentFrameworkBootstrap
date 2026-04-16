@@ -60,6 +60,11 @@ delegation_matrix:
       - state-checkpoint
       - heartbeat-watchdog
       - architecture-advisor
+      - android-architecture-advisor
+      - android-testing-and-test-writing-advisor
+      - android-debugging-advisor
+      - android-data-fixtures-advisor
+      - android-best-practices-advisor
   planning:
     must_append_tasks:
       - name: index-update
@@ -162,5 +167,25 @@ agents:
     priority: medium
   - id: onboarding
     path: .agents/onboarding
+    enabled: true
+    priority: medium
+  - id: android-architecture-advisor
+    path: .agents/android-architecture-advisor
+    enabled: true
+    priority: medium
+  - id: android-testing-and-test-writing-advisor
+    path: .agents/android-testing-and-test-writing-advisor
+    enabled: true
+    priority: medium
+  - id: android-debugging-advisor
+    path: .agents/android-debugging-advisor
+    enabled: true
+    priority: medium
+  - id: android-data-fixtures-advisor
+    path: .agents/android-data-fixtures-advisor
+    enabled: true
+    priority: medium
+  - id: android-best-practices-advisor
+    path: .agents/android-best-practices-advisor
     enabled: true
     priority: medium

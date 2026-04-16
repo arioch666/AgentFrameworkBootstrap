@@ -1,0 +1,23 @@
+id: android-best-practices-advisor
+name: android-best-practices-advisor
+purpose: "Provides Android best-practices guidance (lifecycle/state/modularity) aligned with Spec Kit plans."
+inputs:
+  - user_request
+  - task_context
+  - orchestration_context
+outputs:
+  - recommendations
+  - actions
+memory_path: .agents/android-best-practices-advisor/.memory/memory.md
+agent_file: .agents/android-best-practices-advisor/agent.md
+skills:
+  shared:
+    - .agents/.skills/spec-kit-workflow.md
+  local:
+    - .agents/.skills/android-best-practices-guidance.md
+triggers:
+  - start_of_plan
+  - end_of_plan
+  - start_of_execution
+  - end_of_execution
+delegation_rules: []
