@@ -90,6 +90,29 @@ Read the full contract and merge rules in `docs/downstream-import-contract.md` a
 - Choose **template** when you are creating a **new** repo and want the baseline structure immediately.
 - Choose **manual vendoring** when you already have a repo, or when you want **selective** adoption (only some agents/skills).
 
+## Kotlin pack branch (`kotlin`)
+
+You are viewing the **Kotlin** language agent pack branch. It contains Kotlin-specific advisor agents under `.agents/kotlin-*` plus Kotlin-specific skills under `.agents/.skills/kotlin-*`.
+
+Pack overview: `docs/kotlin-agent-pack.md`
+
+### Downstream integration (manual vendoring)
+
+1. Vendor the **trunk** from `develop` at a pinned `framework-v*` tag (see `docs/releases.md`).
+2. Vendor this **Kotlin pack** from the `kotlin` branch at a pinned `pack-kotlin-v*` tag.
+3. Copy Kotlin pack paths into your project:
+   - `.agents/kotlin-architecture-advisor/`
+   - `.agents/kotlin-testing-and-test-writing-advisor/`
+   - `.agents/kotlin-debugging-advisor/`
+   - `.agents/kotlin-data-fixtures-advisor/`
+   - `.agents/kotlin-style-and-packaging-advisor/`
+   - `.agents/.skills/kotlin-architecture-guidance.md`
+   - `.agents/.skills/kotlin-testing-test-writing-guidance.md`
+   - `.agents/.skills/kotlin-debugging-guidance.md`
+   - `.agents/.skills/kotlin-data-fixtures-guidance.md`
+   - `.agents/.skills/kotlin-style-packaging-guidance.md`
+4. Merge the pack’s `agents.yml` additions into your project `agents.yml` (agent entries + `delegation_matrix.orchestration.can_delegate_to`).
+
 ## Quick Start
 
 ### 1) Add a New Agent
