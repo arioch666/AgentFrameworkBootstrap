@@ -1,0 +1,23 @@
+id: scheduler
+name: scheduler
+purpose: "Schedules automatic resume windows and deferred tasks without user intervention."
+inputs:
+  - user_request
+  - task_context
+  - orchestration_context
+outputs:
+  - recommendations
+  - actions
+memory_path: .agents/scheduler/.memory/memory.md
+agent_file: .agents/scheduler/agent.md
+storage_paths:
+  - .agents/scheduler/storage/
+skills:
+  shared:
+    - .agents/.skills/spec-kit-workflow.md
+  local: []
+triggers:
+  - resume_at_time
+  - resume_window_open
+  - resume_window_missed
+delegation_rules: []

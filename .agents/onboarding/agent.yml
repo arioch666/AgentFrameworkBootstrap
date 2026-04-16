@@ -1,0 +1,20 @@
+id: onboarding
+name: onboarding
+purpose: "Helps new users get oriented with the framework, sample commands, and quick-start tutorial."
+inputs:
+  - user_request
+  - documentation_context
+outputs:
+  - tutorial_steps
+  - sample_commands
+memory_path: .agents/onboarding/.memory/memory.md
+agent_file: .agents/onboarding/agent.md
+skills:
+  shared:
+    - .agents/.skills/spec-kit-workflow.md
+    - .agents/.skills/onboarding-quickstart.md
+  local: []
+triggers:
+  - start_of_plan
+  - start_of_execution
+delegation_rules: []

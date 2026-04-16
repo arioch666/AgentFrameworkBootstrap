@@ -1,0 +1,19 @@
+id: agent-factory
+name: agent-factory
+purpose: "Defines and enforces standards for creating new agents in this project."
+inputs:
+  - user_request
+  - task_context
+  - orchestration_context
+outputs:
+  - recommendations
+  - actions
+memory_path: .agents/agent-factory/.memory/memory.md
+agent_file: .agents/agent-factory/agent.md
+skills:
+  shared:
+    - .agents/.skills/spec-kit-workflow.md
+  local: []
+triggers:
+  - end_of_plan
+delegation_rules: []

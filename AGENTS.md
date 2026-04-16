@@ -1,47 +1,70 @@
-# Agent Guidance (Spec Kit)
+# AGENTS
 
-This repo uses [GitHub Spec Kit](https://github.com/github/spec-kit) to ensure changes follow a
-spec-driven workflow instead of ad-hoc edits.
+## Framework Model
 
-## Spec -> Plan -> Tasks workflow (required)
+This project uses a hybrid agent architecture:
 
-For any non-trivial change (feature, bugfix, or documentation update):
+- **Global registry** in `agents.yml`
+- **Per-agent machine config** in `.agents/<agent-name>/agent.yml`
+- **Per-agent behavior doc** in `.agents/<agent-name>/agent.md`
+- **Per-agent persistent memory** in `.agents/<agent-name>/.memory/memory.md`
+- **Optional storage** in `.agents/<agent-name>/storage/`
+- **Shared skills** in `.agents/.skills/*.md`
 
-1. Read the governing principles:
-   - `.specify/memory/constitution.md`
-2. Identify (or create) the initiative spec:
-   - Spec: `.specify/specs/<FeatureId>/spec.md`
-3. Generate (or update) the implementation plan:
-   - Plan: `.specify/specs/<FeatureId>/plan.md`
-4. Generate (or update) tasks:
-   - Tasks: `.specify/specs/<FeatureId>/tasks.md`
-5. Execute tasks via Spec Kit:
-   - `/speckit-implement`
-6. If you discover requirement drift, update artifacts and re-run the relevant phase.
+This trunk is intentionally language-agnostic and platform-agnostic. Language or
+platform specialization should live on dedicated branches, not on `develop`.
 
-## FeatureId (linking contract)
+## Core Workflow
 
-All spec/plan/task artifacts for an initiative must share the same `FeatureId`:
+For meaningful work, maintain Spec Kit ordering:
 
-- `NNN-kebab-case-short-name`
+`spec -> plan -> tasks -> implement`
 
-Spec Kit writes:
+The planning agent must append a final indexing task owned by `indexing`.
 
+For non-trivial work, follow the same Spec Kit artifact flow:
+
+- `.specify/memory/constitution.md`
 - `.specify/specs/<FeatureId>/spec.md`
 - `.specify/specs/<FeatureId>/plan.md`
 - `.specify/specs/<FeatureId>/tasks.md`
 
-## Documentation changes are first-class
+## FeatureId Contract
 
-Treat documentation like code:
+All initiative artifacts must share the same `FeatureId` format:
 
-- Write a spec that describes the documentation change and acceptance criteria
-- Generate a plan and tasks from that spec
-- Implement docs changes during `/speckit-implement`
+- `NNN-kebab-case-short-name`
 
-## Good agent habits
+## Onboarding
 
-- Do not make "one-off" edits that are not covered by `tasks.md`.
-- Prefer small, verifiable steps and keep tasks tightly scoped to file paths.
-- When a task is done, ensure it is reflected in the Spec Kit artifacts (no phantom [X] checkmarks).
+- `onboarding` helps new users understand the framework, docs, and first commands.
+- Start with:
+  - `docs/README.md`
+  - `docs/agents-framework.md`
+  - `docs/agent-lifecycle-examples.md`
+  - `docs/downstream-import-contract.md`
 
+## Trigger and Continuity Highlights
+
+- `trigger-monitor` routes lifecycle trigger events to `orchestration`.
+- `quota-monitor` warns around 80% quota and initiates continuity flow.
+- `scheduler` + `continuity-coordinator` resume work after quota refresh windows.
+- `heartbeat-watchdog` escalates missed resume windows.
+
+## End-of-Execution Reviews
+
+- `observer` emits recommendation summaries:
+  - candidate new agents
+  - candidate reusable skills
+  - candidate parallelization patterns
+- `architecture-advisor` emits architecture-flow improvements at end-of-plan/end-of-run.
+
+## Branching Guidance
+
+- `develop` is the shared trunk.
+- Language/platform agent packs are expected on dedicated branches such as:
+  - `kotlin`
+  - `android`
+  - `kmp`
+  - `python`
+- Shared fixes should land in `develop` first whenever possible.
