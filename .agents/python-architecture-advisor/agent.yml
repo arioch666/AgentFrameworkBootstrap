@@ -1,0 +1,23 @@
+id: python-architecture-advisor
+name: python-architecture-advisor
+purpose: "Provides Python architecture and project-structure guidance aligned with Spec Kit planning."
+inputs:
+  - user_request
+  - task_context
+  - orchestration_context
+outputs:
+  - recommendations
+  - actions
+memory_path: .agents/python-architecture-advisor/.memory/memory.md
+agent_file: .agents/python-architecture-advisor/agent.md
+skills:
+  shared:
+    - .agents/.skills/spec-kit-workflow.md
+  local:
+    - .agents/.skills/python-architecture-guidance.md
+triggers:
+  - start_of_plan
+  - end_of_plan
+  - start_of_execution
+  - end_of_execution
+delegation_rules: []
