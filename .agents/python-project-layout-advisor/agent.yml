@@ -1,0 +1,23 @@
+id: python-project-layout-advisor
+name: python-project-layout-advisor
+purpose: "Recommends Python style and project layout conventions appropriate for small, testable libraries."
+inputs:
+  - user_request
+  - task_context
+  - orchestration_context
+outputs:
+  - recommendations
+  - actions
+memory_path: .agents/python-project-layout-advisor/.memory/memory.md
+agent_file: .agents/python-project-layout-advisor/agent.md
+skills:
+  shared:
+    - .agents/.skills/spec-kit-workflow.md
+  local:
+    - .agents/.skills/python-project-layout-guidance.md
+triggers:
+  - start_of_plan
+  - end_of_plan
+  - start_of_execution
+  - end_of_execution
+delegation_rules: []

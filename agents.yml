@@ -60,6 +60,11 @@ delegation_matrix:
       - state-checkpoint
       - heartbeat-watchdog
       - architecture-advisor
+      - python-architecture-advisor
+      - python-testing-and-test-writing-advisor
+      - python-debugging-advisor
+      - python-data-fixtures-advisor
+      - python-project-layout-advisor
   planning:
     must_append_tasks:
       - name: index-update
@@ -162,5 +167,25 @@ agents:
     priority: medium
   - id: onboarding
     path: .agents/onboarding
+    enabled: true
+    priority: medium
+  - id: python-architecture-advisor
+    path: .agents/python-architecture-advisor
+    enabled: true
+    priority: medium
+  - id: python-testing-and-test-writing-advisor
+    path: .agents/python-testing-and-test-writing-advisor
+    enabled: true
+    priority: medium
+  - id: python-debugging-advisor
+    path: .agents/python-debugging-advisor
+    enabled: true
+    priority: medium
+  - id: python-data-fixtures-advisor
+    path: .agents/python-data-fixtures-advisor
+    enabled: true
+    priority: medium
+  - id: python-project-layout-advisor
+    path: .agents/python-project-layout-advisor
     enabled: true
     priority: medium
