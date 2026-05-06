@@ -33,6 +33,16 @@ These tags exist to pin the first documented hybrid adoption + pack README integ
 - `pack-android-v0.1.0` on `android`
 - `pack-kmp-v0.1.0` on `kmp`
 
+### Published pins (post-rebase, with GitHub Releases)
+
+After rebasing pack branches onto trunk and shipping `afb_init`, these tags point at the current recommended pins (GitHub Releases exist for each):
+
+- `framework-v0.1.1` on `develop`
+- `pack-kotlin-v0.1.1` on `kotlin`
+- `pack-python-v0.1.1` on `python`
+- `pack-android-v0.1.1` on `android`
+- `pack-kmp-v0.1.1` on `kmp`
+
 Copy/paste release note templates live under `docs/release-notes/` (start at `docs/release-notes/README.md`).
 
 Note: during early adoption iterations, tags may be **force-updated** to keep `v0.1.0` aligned with the branch tips that include the README + release-notes templates. Prefer pinning the **peeled commit SHA** (`git rev-parse <tag>^{}`) in downstream repos if you want immutability even if a tag moves.
