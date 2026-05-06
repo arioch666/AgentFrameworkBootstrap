@@ -4,7 +4,7 @@
 - `docs/agent-lifecycle-examples.md` - example execution patterns for planning, quota pause/resume, and end-of-run reviews.
 - `docs/language-branch-strategy.md` - trunk-first branching and rebase model for language/platform agent packs.
 - `docs/downstream-import-contract.md` - how other projects consume this framework and extend `agents.yml`.
-- `docs/afb-init.md` - `afb_init` bootstrap (one-time copy + commit; agents, Spec Kit scaffold, canonical memory).
+- `docs/afb-init.md` - `afb_init` / `afb_bootstrap` (one-time copy + commit; agents, Spec Kit scaffold, canonical memory; optional GitHub zip download).
 - `docs/framework-legacy-references.md` - remaining legacy naming to clean in a follow-up sweep.
 - `docs/releases.md` - tag naming, GitHub Releases expectations, and consumer-facing upgrade notes.
 - `docs/release-notes/README.md` - copy/paste release note templates for GitHub Releases.

@@ -5,7 +5,34 @@
 ## Requirements
 
 - **PowerShell** (Windows PowerShell 5.1+ or PowerShell 7). On macOS/Linux install [PowerShell](https://aka.ms/powershell).
-- A checkout of this framework repo (or a release tarball) available on disk.
+- A checkout of this framework repo (or a release tarball) on disk — **or** use [`afb_bootstrap.ps1`](../scripts/afb_bootstrap.ps1) (below), which downloads tagged release zips from GitHub so you do not need a prior clone.
+
+## Download release ZIP + run (`afb_bootstrap.ps1`)
+
+Use **[`scripts/afb_bootstrap.ps1`](../scripts/afb_bootstrap.ps1)** when you want a **single command** that:
+
+1. Downloads `https://github.com/<org>/<repo>/archive/refs/tags/<FrameworkTag>.zip` (default org/repo: `arioch666` / `AgentFrameworkBootstrap`).
+2. Optionally downloads each **pack** tag zip the same way (`pack-kotlin-v*`, `pack-python-v*`, …).
+3. Unpacks into a **temp directory**, then runs **`scripts/afb_init.ps1`** from the unpacked **framework** tree with `-SourceRepo` set to that tree and `-PackSource` for each unpacked pack.
+
+Example (framework + Kotlin pack into current directory):
+
+```powershell
+pwsh -NoProfile -ExecutionPolicy Bypass -File .\scripts\afb_bootstrap.ps1 `
+  -FrameworkTag framework-v0.1.1 `
+  -PackTag pack-kotlin-v0.1.1 `
+  -Target .
+```
+
+Preview without downloading:
+
+```powershell
+.\scripts\afb_bootstrap.ps1 -FrameworkTag framework-v0.1.1 -DryRun
+```
+
+**Distribution:** A single saved copy of `afb_bootstrap.ps1` is enough for the **download + init** path: the framework zip from GitHub already contains `scripts/afb_init.ps1`, `scripts/lib/afb_merge_agents.ps1`, `.agents/`, `.specify/`, etc. You can still run it from a full clone if you prefer.
+
+**Switches:** `-SkipCleanup` leaves the temp unzip folder for debugging. `-AllowDirtyGit` skips the abort when the target repo has uncommitted changes. `-SkipSpecKit`, `-SkipCursor`, `-SkipAgentsMd`, `-NoCanonicalMemory` are passed through to `afb_init.ps1`.
 
 ## Making the command available in your project
 
@@ -229,6 +256,7 @@ chmod +x ./vendor/AgentFrameworkBootstrap/scripts/afb_init.sh
 | [scripts/afb_init.sh](../scripts/afb_init.sh) | Launches `pwsh` / `powershell.exe` |
 | [scripts/afb_init.cmd](../scripts/afb_init.cmd) | Windows `PATH` / double-click friendly |
 | [scripts/afb_init](../scripts/afb_init) | POSIX launcher (same as `.sh`) |
+| [scripts/afb_bootstrap.ps1](../scripts/afb_bootstrap.ps1) | Download tagged GitHub zips + run `afb_init` |
 
 ## Usage
 
