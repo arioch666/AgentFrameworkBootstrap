@@ -1,6 +1,6 @@
 version: 1
 framework:
-  name: tradingpatternbot-agent-framework
+  name: agent-framework-bootstrap
   mode: hybrid
   description: >-
     Cross-platform multi-agent framework combining a central registry (agents.yml)

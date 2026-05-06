@@ -24,5 +24,9 @@ Auto-generated from all feature plans. Last updated: [DATE]
 
 [LAST 3 FEATURES AND WHAT THEY ADDED]
 
+## Project memory (canonical)
+
+All assistants must use **repo-local** memory only. Record durable project facts in [`ai/memory/memory.md`](../../../ai/memory/memory.md) (create via `scripts/afb_init.ps1` if needed). Do not rely on device-local vendor memory for truths that belong in git.
+
 <!-- MANUAL ADDITIONS START -->
 <!-- MANUAL ADDITIONS END -->

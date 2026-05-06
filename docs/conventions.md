@@ -10,7 +10,7 @@ Use the format:
 
 Examples:
 
-- `001-trading-pattern-ingestion`
+- `001-agent-bootstrap-onboarding`
 - `002-pattern-signals-api`
 - `003-docs-contributor-workflow`
 
