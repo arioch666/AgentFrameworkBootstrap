@@ -14,6 +14,14 @@ Downstream projects should be able to adopt only the pieces they need.
 4. Create project-specific agents or skills as needed
 5. Append project-specific entries into `agents.yml`
 
+## Bootstrap: `afb_init`
+
+For a scripted first import, use **`afb_init`** (PowerShell + launchers under `scripts/`). It merge-copies `.agents/`, performs an **additive** `agents.yml` merge, optionally lays down Spec Kit scaffolding when `.specify/` is missing, and sets up **canonical project memory** at `ai/memory/memory.md`.
+
+The **default** adoption story is **one-time copy + commit**: run `afb_init` against a pinned tag, commit everything it writes into the downstream repo, then maintain agents locally without an ongoing framework dependency. Rerun only when intentionally refreshing from upstream.
+
+See [afb-init.md](./afb-init.md) for flags, validation, and pack merge order. For **how to obtain the script** (clone, zip, optional submodule, `package.json` / Gradle helpers), see [Making the command available in your project](./afb-init.md#making-the-command-available-in-your-project).
+
 ## Hybrid adoption (template + vendoring)
 
 Downstream adoption is intentionally **file-based** (markdown + YAML), not a package import.

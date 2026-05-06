@@ -13,3 +13,6 @@ If you are unsure what to do next, start from:
 3. `.specify/specs/<FeatureId>/plan.md`
 4. `.specify/specs/<FeatureId>/tasks.md`
 
+## Project memory
+
+Record durable, shareable context in [`ai/memory/memory.md`](../../ai/memory/memory.md). Prefer repo-local memory over device-local vendor memory for facts that belong in git.

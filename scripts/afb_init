@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+# POSIX launcher — add `scripts/` to PATH or symlink this file as `afb_init`.
+set -euo pipefail
+DIR="$(cd "$(dirname "$0")" && pwd)"
+exec "$DIR/afb_init.sh" "$@"

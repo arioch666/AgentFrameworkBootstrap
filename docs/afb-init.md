@@ -1,0 +1,295 @@
+# `afb_init` — bootstrap AgentFrameworkBootstrap into a project
+
+`afb_init` vendors framework assets into a **downstream repository**: `.agents/`, shared skills, `agents.yml` (additive merge), optional Spec Kit scaffolding, Cursor rules/skills, and canonical project memory.
+
+## Requirements
+
+- **PowerShell** (Windows PowerShell 5.1+ or PowerShell 7). On macOS/Linux install [PowerShell](https://aka.ms/powershell).
+- A checkout of this framework repo (or a release tarball) available on disk.
+
+## Making the command available in your project
+
+This framework is **not** published as an npm/PyPI/Maven dependency. For bootstrap you only need **any** pinned checkout or archive of this repo on disk long enough to run `scripts/afb_init.ps1` against your project root.
+
+### Recommended: One-time copy + commit
+
+Most downstream teams should treat `afb_init` as a **single setup step** (local machine, teammate laptop, or CI job), then **own the vendored files forever**:
+
+1. Pick a **pinned trunk tag** (and optional pack tag) from [releases.md](releases.md).
+2. Obtain the framework **once** — e.g. `git clone` at that tag, download the GitHub **tag zip**, or use a short-lived temp directory.
+3. Run `afb_init.ps1` with `-Target` set to your **application repo root** (and `-PackSource` for each pack checkout if needed).
+4. **Commit** everything `afb_init` wrote into that repo: `.agents/`, `agents.yml`, `ai/memory/memory.md`, `.specify/` (if created), optional `.cursor/`, `AGENTS.md`, etc.
+5. After that, **day-to-day work** is only in your repo: edit agents, skills, and `agents.yml` there. **Do not** rerun `afb_init` unless you **choose** to refresh from upstream (new framework tag), re-merge registry entries, or recreate the layout.
+
+You **do not** need a permanent submodule or a build step that re-downloads the framework on every compile. Optional `package.json` / Gradle helpers below are for **convenience on first run or rare upgrades**—keep them **manual** (do not hook them into every `build` / `npm run build` unless you explicitly want that).
+
+### Optional: Git submodule (ongoing link to upstream)
+
+Use a submodule **only** if you want a **persistent pointer** to this repository for frequent updates. Flow: add submodule, pin tag under `vendor/AgentFrameworkBootstrap`, run `afb_init`, **then either** keep the submodule for updates **or** remove it after vendoring if you prefer a pure copy + commit workflow.
+
+```bash
+git submodule add https://github.com/<org>/AgentFrameworkBootstrap.git vendor/AgentFrameworkBootstrap
+cd vendor/AgentFrameworkBootstrap
+git fetch --tags origin
+git checkout framework-v0.1.0
+cd ../..
+git add .gitmodules vendor/AgentFrameworkBootstrap
+git commit -m "Add AgentFrameworkBootstrap submodule pinned to framework-v0.1.0"
+```
+
+Optional language pack: add a second submodule (for example `vendor/AgentFrameworkBootstrap-python`) checked out at `pack-python-v*`, and pass it with `-PackSource` (see templates below).
+
+### Optional: scripts-only vendor folder
+
+If you want a **repeatable** local command without a submodule, you may vendor **only** `scripts/` + `scripts/lib/` into your repo (e.g. `tools/afb/scripts/`) and pass `-SourceRepo` pointing at a **full** separate checkout or unpacked archive when you run `afb_init`. For Spec Kit bootstrap, `-SourceRepo` must still resolve to a tree that contains `.specify/`.
+
+### npm / pnpm / Yarn (optional script alias)
+
+If your project already has a `package.json`, you can add **manual** scripts that invoke `afb_init` (first run or rare upgrades). Paths often point at a **temporary clone** or a **vendored `scripts/`** tree—not a requirement to keep the full framework in the repo after you have committed the outputs.
+
+```json
+{
+  "scripts": {
+    "afb_init": "pwsh -NoProfile -ExecutionPolicy Bypass -File ./vendor/AgentFrameworkBootstrap/scripts/afb_init.ps1 -Target .",
+    "afb_init:dry": "pwsh -NoProfile -ExecutionPolicy Bypass -File ./vendor/AgentFrameworkBootstrap/scripts/afb_init.ps1 -Target . -DryRun",
+    "afb_init:validate": "pwsh -NoProfile -ExecutionPolicy Bypass -File ./vendor/AgentFrameworkBootstrap/scripts/afb_init.ps1 -Target . -ValidateOnly"
+  }
+}
+```
+
+On Windows without `pwsh` on PATH, replace `pwsh` with `powershell.exe` or install [PowerShell 7](https://aka.ms/powershell).
+
+### Gradle (Kotlin DSL or Groovy)
+
+There is **no** `implementation("…:agent-framework-bootstrap:…")` artifact on Maven Central. Gradle can still expose a **manual** task that runs `afb_init.ps1` **once** (or on demand) using a **temporary** unpacked archive or a local path—**do not** attach that task to every `build` unless you intend to re-vendor on every compile.
+
+#### Option A — `Exec` against a path (clone, submodule, or unpacked zip)
+
+Point `commandLine` at wherever `scripts/afb_init.ps1` lives for this run (example uses a submodule path; swap for `layout.buildDirectory/...` after unpacking a tag zip).
+
+**Kotlin DSL** (`build.gradle.kts` or `buildSrc/...`):
+
+```kotlin
+tasks.register<Exec>("afbInit") {
+    group = "agent framework"
+    description = "Vendor AgentFrameworkBootstrap into this repository (see docs/afb-init.md)"
+    workingDir = rootDir
+    val script = rootDir.resolve("vendor/AgentFrameworkBootstrap/scripts/afb_init.ps1")
+    commandLine(
+        "pwsh", "-NoProfile", "-ExecutionPolicy", "Bypass", "-File",
+        script.absolutePath,
+        "-Target", rootDir.absolutePath
+        // Optional: , "-PackSource", rootDir.resolve("vendor/AgentFrameworkBootstrap-python").absolutePath
+    )
+    isIgnoreExitValue = false
+}
+```
+
+**Groovy** (`build.gradle`):
+
+```groovy
+tasks.register('afbInit', Exec) {
+    group = 'agent framework'
+    description = 'Vendor AgentFrameworkBootstrap into this repository (see docs/afb-init.md)'
+    workingDir rootDir
+    def script = file('vendor/AgentFrameworkBootstrap/scripts/afb_init.ps1')
+    commandLine 'pwsh', '-NoProfile', '-ExecutionPolicy', 'Bypass', '-File',
+        script.absolutePath,
+        '-Target', rootDir.absolutePath
+}
+```
+
+Use `./gradlew afbInit` **manually** when bootstrapping or upgrading—not as an implicit dependency of `build`. If `pwsh` is not on `PATH`, replace the first element with the full path to `pwsh.exe` / `powershell.exe`, or set `PATH` in CI.
+
+#### Option B — Pinned GitHub archive + Gradle (good for one-time / no submodule)
+
+Use this when you want **one-time copy + commit** without leaving a submodule in the tree: a **manual** task chain downloads the **tag archive** from GitHub (same pin as [releases.md](releases.md)), unpacks under `build/`, runs `afb_init.ps1` from that tree with `-SourceRepo` set to the unpacked root, then you **commit** the vendored files in your app repo and remove or ignore `build/afb` as usual.
+
+Pin the revision in `gradle.properties` (not a Maven coordinate):
+
+```properties
+afb.github.repo=your-org/AgentFrameworkBootstrap
+afb.framework.tag=framework-v0.1.0
+```
+
+GitHub serves archives at:
+
+`https://github.com/<owner>/<repo>/archive/refs/tags/<tag>.zip`
+
+The zip contains one top-level directory named `<repo>-<tag>` with `/` in `<tag>` turned into `-` (for example `AgentFrameworkBootstrap-framework-v0.1.0`).
+
+**Kotlin DSL** — download with the JDK only, unpack with `zipTree`, then `afbInitFromArchive`:
+
+```kotlin
+import java.net.URI
+import java.nio.file.Files
+import java.nio.file.StandardCopyOption
+
+val afbGithubRepo = providers.gradleProperty("afb.github.repo").orElse("your-org/AgentFrameworkBootstrap")
+val afbFrameworkTag = providers.gradleProperty("afb.framework.tag").orElse("framework-v0.1.0")
+
+val afbDownloadFramework = tasks.register("afbDownloadFramework") {
+    group = "agent framework"
+    description = "Download pinned AgentFrameworkBootstrap tag archive from GitHub"
+    doLast {
+        val repo = afbGithubRepo.get()
+        val tag = afbFrameworkTag.get()
+        val zip = layout.buildDirectory.dir("afb").get().asFile.resolve("trunk.zip")
+        zip.parentFile.mkdirs()
+        val url = "https://github.com/$repo/archive/refs/tags/$tag.zip"
+        URI.create(url).toURL().openStream().use { input ->
+            Files.copy(input, zip.toPath(), StandardCopyOption.REPLACE_EXISTING)
+        }
+    }
+}
+
+val afbUnpackFramework = tasks.register<Copy>("afbUnpackFramework") {
+    group = "agent framework"
+    description = "Unpack AgentFrameworkBootstrap archive under build/"
+    dependsOn(afbDownloadFramework)
+    val zip = layout.buildDirectory.dir("afb").get().asFile.resolve("trunk.zip")
+    from(zipTree(zip))
+    into(layout.buildDirectory.dir("afb/checkout"))
+}
+
+tasks.register<Exec>("afbInitFromArchive") {
+    group = "agent framework"
+    description = "Run afb_init.ps1 from the downloaded archive (see docs/afb-init.md)"
+    dependsOn(afbUnpackFramework)
+    workingDir = rootDir
+    doFirst {
+        val repo = afbGithubRepo.get()
+        val tag = afbFrameworkTag.get()
+        val repoName = repo.substringAfterLast('/')
+        val extractedRoot = layout.buildDirectory.dir("afb/checkout").get().asFile
+            .resolve("${repoName}-${tag.replace('/', '-')}")
+        val script = extractedRoot.resolve("scripts/afb_init.ps1")
+        check(script.isFile) {
+            "Expected $script — check afb.github.repo / afb.framework.tag (GitHub top folder is $repoName-${tag.replace('/', '-')})."
+        }
+        executable = "pwsh"
+        args = listOf(
+            "-NoProfile",
+            "-ExecutionPolicy", "Bypass",
+            "-File", script.absolutePath,
+            "-Target", rootDir.absolutePath,
+            "-SourceRepo", extractedRoot.absolutePath
+        )
+    }
+}
+```
+
+Run `./gradlew afbInitFromArchive`. If you prefer not to use `java.net.URI` / `URL` in builds, swap the download `doLast` for a plugin such as [`de.undercouch.download`](https://github.com/michel-kraemer/gradle-download-task) or your org’s standard HTTP task.
+
+#### Why not `implementation(...)`?
+
+Gradle’s `implementation` / `api` configurations resolve **JVM bytecode** (or Kotlin multiplatform metadata). This framework ships **markdown + YAML + PowerShell**; the build “dependency” is really a **pinned source tree** plus a **task** that runs `afb_init`.
+
+### Command template (PowerShell)
+
+Replace placeholders with absolute or repo-relative paths. `-SourceRepo` defaults to the parent of `scripts/` inside the framework checkout, so you can omit it when the script you invoke lives inside that checkout.
+
+```powershell
+pwsh -NoProfile -ExecutionPolicy Bypass -File "<PATH_TO_FRAMEWORK>/scripts/afb_init.ps1" `
+  -Target "<DOWNSTREAM_PROJECT_ROOT>" `
+  -SourceRepo "<PATH_TO_FRAMEWORK_TRUNK>" `
+  -PackSource "<PATH_TO_PACK_CHECKOUT_1>" `
+  -PackSource "<PATH_TO_PACK_CHECKOUT_2>"
+```
+
+**Minimal** (bootstrap current directory; framework at `./vendor/AgentFrameworkBootstrap`):
+
+```powershell
+pwsh -NoProfile -ExecutionPolicy Bypass -File "./vendor/AgentFrameworkBootstrap/scripts/afb_init.ps1" -Target .
+```
+
+**With packs** (trunk submodule + Python pack submodule):
+
+```powershell
+pwsh -NoProfile -ExecutionPolicy Bypass -File "./vendor/AgentFrameworkBootstrap/scripts/afb_init.ps1" `
+  -Target . `
+  -PackSource "./vendor/AgentFrameworkBootstrap-python"
+```
+
+### Command template (Bash / Git Bash / macOS / Linux)
+
+Requires `pwsh` or `powershell.exe` on PATH (see [scripts/afb_init.sh](../scripts/afb_init.sh)). Arguments are forwarded to `afb_init.ps1` unchanged (PowerShell `-Parameter` syntax).
+
+```bash
+chmod +x ./vendor/AgentFrameworkBootstrap/scripts/afb_init.sh
+./vendor/AgentFrameworkBootstrap/scripts/afb_init.sh -Target "$(pwd)" \
+  -PackSource "$(pwd)/vendor/AgentFrameworkBootstrap-python"
+```
+
+## Entry points
+
+| File | Use |
+|------|-----|
+| [scripts/afb_init.ps1](../scripts/afb_init.ps1) | Primary implementation |
+| [scripts/afb_init.sh](../scripts/afb_init.sh) | Launches `pwsh` / `powershell.exe` |
+| [scripts/afb_init.cmd](../scripts/afb_init.cmd) | Windows `PATH` / double-click friendly |
+| [scripts/afb_init](../scripts/afb_init) | POSIX launcher (same as `.sh`) |
+
+## Usage
+
+From a clone of **AgentFrameworkBootstrap**:
+
+```powershell
+# Bootstrap current directory (downstream project root)
+.\scripts\afb_init.ps1
+
+# Explicit target + optional language pack checkouts (merge order: trunk, then each pack)
+.\scripts\afb_init.ps1 -Target D:\work\my-app -PackSource D:\vendor\afb-python
+
+# Preview only
+.\scripts\afb_init.ps1 -Target D:\work\my-app -DryRun
+
+# Validate an existing project (agents.yml vs .agents folders, canonical memory file, AI context pointers)
+.\scripts\afb_init.ps1 -ValidateOnly -Target D:\work\my-app
+```
+
+### Parameters
+
+| Parameter | Meaning |
+|-----------|---------|
+| `-Target` | Destination project root (default: current directory). Created if missing (unless `-ValidateOnly`). |
+| `-SourceRepo` | Path to framework trunk checkout (default: parent of `scripts/`). |
+| `-PackSource` | Extra repo roots (e.g. `python` / `kotlin` branch checkouts) merged **after** trunk. Repeatable. |
+| `-DryRun` | Log actions without writing files. Post-run validation is skipped (nothing to verify yet). |
+| `-SkipSpecKit` | Do not copy `.specify/` scaffold when absent; do not validate when present. |
+| `-SkipCursor` | Do not merge-copy `.cursor/`. |
+| `-SkipAgentsMd` | Do not copy root `AGENTS.md` when missing. |
+| `-NoCanonicalMemory` | Skip `ai/memory/memory.md` and per-agent delegated memory stubs. |
+| `-ValidateOnly` | Run checks and exit (`0` = OK, `2` = issues). |
+
+## What gets installed
+
+1. **Agents & skills** — Merge-copy `.agents/` (including `.agents/.skills/`).
+2. **`agents.yml`** — If missing, copied from trunk; if present, **additive merge** (new agent blocks + missing `delegation_matrix.orchestration.can_delegate_to` entries). Implemented in [scripts/lib/afb_merge_agents.ps1](../scripts/lib/afb_merge_agents.ps1) (no YAML package dependency).
+3. **Spec Kit** — If `.specify/` **does not exist**, copies `templates/`, `scripts/`, `workflows/`, `integrations/`, `integration.json`, `init-options.json`, and `memory/constitution.md`. Does **not** copy example initiatives under `.specify/specs/*`. If `.specify/` **already exists**, scaffolding is **skipped**; a short validation warning lists common missing files.
+4. **Cursor** — Merge-copy `.cursor/` (rules + skills) unless `-SkipCursor`.
+5. **Canonical memory** — Ensures [`ai/memory/memory.md`](../ai/memory/memory.md) exists and rewrites each `.agents/<agent>/.memory/memory.md` to a **delegated** stub pointing at the canonical file (unless `-NoCanonicalMemory`).
+
+## Validation (`-ValidateOnly`)
+
+Reports:
+
+- Missing `agents.yml`
+- Duplicate `agents[].id` entries
+- `.agents/*` directories not referenced by a `path: .agents/<name>` line
+- Missing `ai/memory/memory.md`
+- Existing `CLAUDE.md`, `GEMINI.md`, or Cursor rule files that omit a pointer to `ai/memory/memory.md`
+
+## Packs and pins
+
+Use pinned tags per [releases.md](releases.md). Typical flow:
+
+1. Clone or unpack trunk at `framework-v*`.
+2. Optionally clone pack branches at `pack-*-v*`.
+3. Run `afb_init` with `-PackSource` for each pack checkout.
+
+## Limitations
+
+- `agents.yml` merge assumes the **standard layout** of this framework (especially `delegation_matrix.orchestration` followed by `planning:`). Custom downstream YAML may need manual merge.
+- Migrating **legacy** ad-hoc agent definitions into `.agents/<id>/` is **manual**; `afb_init` does not infer agent IDs from arbitrary files.
+- Residual legacy naming in this repo is tracked in [framework-legacy-references.md](framework-legacy-references.md).

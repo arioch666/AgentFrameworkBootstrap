@@ -2,6 +2,8 @@
 
 This repository ships **framework assets** (mostly markdown under `.agents/` plus `agents.yml`). Releases exist to give downstream consumers a **stable pin** for copying/vendoring files.
 
+Consumers may run **`afb_init`** from a pinned checkout to automate that vendoring flow; see `docs/afb-init.md`.
+
 ## What gets released
 
 - **Trunk (`develop`)**: the language/platform-agnostic framework contract and shared agents/skills.
