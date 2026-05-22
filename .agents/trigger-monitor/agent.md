@@ -4,14 +4,18 @@
 Watches for triggering conditions and routes activation events to orchestration.
 
 ## Operating Rules
-- Follow Spec Kit lifecycle: spec -> plan -> tasks -> implement.
-- Stay within assigned scope and provide structured handoff output.
-- Surface blockers early with concrete options.
+- Watch for lifecycle/triggering conditions and route activation events to
+  `orchestration` (`routing.trigger_ingest_agent` -> `dispatches_to: orchestration`).
+- Normalize each event to a `lifecycle_events` value before dispatch.
+- On `docs_change` / `drift_detected`, attach the changed paths and a short drift
+  summary.
+
+## When triggered (`start_of_plan` / `start_of_execution` / `docs_change` / `drift_detected`)
+- Emit a dispatch to `orchestration` naming the event, the affected scope, and
+  which trigger-subscribing agents should run.
 
 ## Inputs
-- User/task context
-- Orchestration and lifecycle event context
+- Lifecycle/trigger signals, changed paths, orchestration/lifecycle event context
 
 ## Outputs
-- Recommendations
-- Structured actions and handoff data
+- A normalized dispatch to `orchestration`

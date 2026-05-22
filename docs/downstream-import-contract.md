@@ -10,13 +10,16 @@ Downstream projects should be able to adopt only the pieces they need.
 
 1. Copy or import selected `.agents/` content
 2. Copy or import selected `.agents/.skills/` content
-3. Create project-local `.specify/`
-4. Create project-specific agents or skills as needed
-5. Append project-specific entries into `agents.yml`
+3. Copy the AI entry points so any assistant auto-discovers the framework:
+   `AGENTS.md` (the Activation Protocol), `CLAUDE.md`, `GEMINI.md`,
+   `.github/copilot-instructions.md`, and `.cursor/rules/`
+4. Create project-local `.specify/`
+5. Create project-specific agents or skills as needed
+6. Append project-specific entries into `agents.yml`
 
 ## Bootstrap: `afb_init`
 
-For a scripted first import, use **`afb_init`** (PowerShell + launchers under `scripts/`). It merge-copies `.agents/`, performs an **additive** `agents.yml` merge, optionally lays down Spec Kit scaffolding when `.specify/` is missing, and sets up **canonical project memory** at `ai/memory/memory.md`.
+For a scripted first import, use **`afb_init`** (PowerShell + launchers under `scripts/`). It merge-copies `.agents/`, performs an **additive** `agents.yml` merge, optionally lays down Spec Kit scaffolding when `.specify/` is missing, copies root AI entry points (`AGENTS.md`, `CLAUDE.md`, `GEMINI.md`, `.github/copilot-instructions.md`) when missing, and sets up **canonical project memory** at `ai/memory/memory.md`.
 
 The **default** adoption story is **one-time copy + commit**: run `afb_init` against a pinned tag, commit everything it writes into the downstream repo, then maintain agents locally without an ongoing framework dependency. Rerun only when intentionally refreshing from upstream.
 

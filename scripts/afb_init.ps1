@@ -8,7 +8,7 @@
   - Merges/copies `.agents/`, `.agents/.skills/`, and `agents.yml` (additive merge).
   - Ensures Spec Kit scaffolding under `.specify/` when missing (skips full scaffold when `.specify` already exists).
   - Ensures canonical project memory at `ai/memory/memory.md` and optional per-agent delegated stubs.
-  - Optionally copies Cursor rules/skills and root `AGENTS.md`.
+  - Optionally copies Cursor rules/skills and root AI entry points (`AGENTS.md`, `CLAUDE.md`, `GEMINI.md`, `.github/copilot-instructions.md`).
 
 .PARAMETER Target
   Destination project root (default: current directory).
@@ -29,7 +29,7 @@
   Do not copy `.cursor/` rules and skills.
 
 .PARAMETER SkipAgentsMd
-  Do not copy root `AGENTS.md` when missing.
+  Do not copy root AI entry points when missing (`AGENTS.md`, `CLAUDE.md`, `GEMINI.md`, `.github/copilot-instructions.md`).
 
 .PARAMETER NoCanonicalMemory
   Do not create `ai/memory/memory.md` or rewrite per-agent `.memory/memory.md` stubs.
@@ -369,14 +369,26 @@ $sourceYml = Join-Path $SourceRepo 'agents.yml'
 Merge-AfbAgentsYamlFile -SourcePath $sourceYml -TargetPath $targetYml -DryRun:$DryRun
 
 if (-not $SkipAgentsMd) {
-    $dstAg = Join-Path $TargetRoot 'AGENTS.md'
-    $srcAg = Join-Path $SourceRepo 'AGENTS.md'
-    if ((-not (Test-Path -LiteralPath $dstAg)) -and (Test-Path -LiteralPath $srcAg)) {
-        if ($DryRun) {
-            Write-AfbInfo "[dry-run] Would copy $srcAg -> $dstAg"
-        }
-        else {
-            Copy-Item -LiteralPath $srcAg -Destination $dstAg -Force
+    $aiEntryPoints = @(
+        'AGENTS.md',
+        'CLAUDE.md',
+        'GEMINI.md',
+        (Join-Path '.github' 'copilot-instructions.md')
+    )
+    foreach ($rel in $aiEntryPoints) {
+        $dstAg = Join-Path $TargetRoot $rel
+        $srcAg = Join-Path $SourceRepo $rel
+        if ((-not (Test-Path -LiteralPath $dstAg)) -and (Test-Path -LiteralPath $srcAg)) {
+            if ($DryRun) {
+                Write-AfbInfo "[dry-run] Would copy $srcAg -> $dstAg"
+            }
+            else {
+                $parent = Split-Path -Parent $dstAg
+                if ($parent -and -not (Test-Path -LiteralPath $parent)) {
+                    New-Item -ItemType Directory -Path $parent -Force | Out-Null
+                }
+                Copy-Item -LiteralPath $srcAg -Destination $dstAg -Force
+            }
         }
     }
 }

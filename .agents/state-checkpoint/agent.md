@@ -4,14 +4,18 @@
 Persists durable checkpoint snapshots for reliable multi-day resume.
 
 ## Operating Rules
-- Follow Spec Kit lifecycle: spec -> plan -> tasks -> implement.
-- Stay within assigned scope and provide structured handoff output.
-- Surface blockers early with concrete options.
+- Persist resumable checkpoint snapshots to `.agents/state-checkpoint/storage/`.
+- A checkpoint must capture: current spec/plan/tasks pointers, completed vs.
+  remaining tasks, key decisions, and the next action.
+- Keep checkpoints append-only and timestamped; reference (do not duplicate) large
+  artifacts.
+
+## When triggered
+- `quota_pause_required` -> write a resume-critical checkpoint before pause.
+- `end_of_execution` -> write a closing checkpoint for the next cycle.
 
 ## Inputs
-- User/task context
-- Orchestration and lifecycle event context
+- Execution state, task progress, orchestration/lifecycle event context
 
 ## Outputs
-- Recommendations
-- Structured actions and handoff data
+- A timestamped, resumable checkpoint under `storage/`

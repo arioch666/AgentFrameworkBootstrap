@@ -72,7 +72,7 @@ Read the full contract and merge rules in `docs/downstream-import-contract.md` a
 
 ### Scripted bootstrap (`afb_init`)
 
-Use **`afb_init`** once (or when you deliberately refresh) to vendor trunk (and optional pack checkouts) into a downstream repo: `.agents/`, additive `agents.yml` merge, Spec Kit scaffold when `.specify/` is missing, optional `.cursor/` rules/skills, and **`ai/memory/memory.md`** as canonical memory. **Commit those files** and work only in your repo afterward; rerun `afb_init` only when you want to merge upstream changes again.
+Use **`afb_init`** once (or when you deliberately refresh) to vendor trunk (and optional pack checkouts) into a downstream repo: `.agents/`, additive `agents.yml` merge, Spec Kit scaffold when `.specify/` is missing, optional `.cursor/` rules/skills, root AI entry points (`AGENTS.md`, `CLAUDE.md`, `GEMINI.md`, `.github/copilot-instructions.md`), and **`ai/memory/memory.md`** as canonical memory. **Commit those files** and work only in your repo afterward; rerun `afb_init` only when you want to merge upstream changes again.
 
 There is **no npm/PyPI/Maven package** for this flow: obtain a **pinned tag** (clone or zip), run `scripts/afb_init.ps1` against your project root, then **one-time copy + commit** — or run **`scripts/afb_bootstrap.ps1`** to download the tagged release archives from GitHub and invoke `afb_init` for you ([`docs/afb-init.md`](docs/afb-init.md#download-release-zip--run-afb_bootstrapps1)). A Git submodule or build task is **optional** convenience, not required.
 
@@ -82,7 +82,8 @@ There is **no npm/PyPI/Maven package** for this flow: obtain a **pinned tag** (c
 2. Copy the trunk framework assets into your project:
    - `.agents/` (shared agents + skills)
    - `agents.yml` (merge into your project registry; prefer additive merges)
-   - (optional) `AGENTS.md` and relevant `docs/` pages
+   - **AI entry points** (recommended): `AGENTS.md` (contains the Activation Protocol), plus `CLAUDE.md`, `GEMINI.md`, and `.github/copilot-instructions.md` so Claude, Gemini, and Copilot auto-discover the framework, and `.cursor/rules/` for Cursor
+   - (optional) relevant `docs/` pages
 3. If you need a language/platform pack, pick a **pinned pack version** from the corresponding branch (`kotlin`, `python`, `android`, `kmp`) and copy:
    - `.agents/<pack-agent-id>/`
    - `.agents/.skills/<pack-skill-*.md>`

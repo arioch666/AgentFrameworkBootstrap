@@ -4,14 +4,20 @@
 Schedules automatic resume windows and deferred tasks without user intervention.
 
 ## Operating Rules
-- Follow Spec Kit lifecycle: spec -> plan -> tasks -> implement.
-- Stay within assigned scope and provide structured handoff output.
-- Surface blockers early with concrete options.
+- Schedule resume windows and deferred tasks; persist the schedule to
+  `.agents/scheduler/storage/` so it survives sessions.
+- On an open window, hand control to `continuity-coordinator` / `orchestration`.
+- On a missed window, hand off to `heartbeat-watchdog`
+  (`delegation_matrix.scheduler.missed_window_handler`).
+
+## When triggered
+- `resume_at_time` / `resume_window_open` -> signal resume and hand off to
+  `continuity-coordinator`.
+- `resume_window_missed` -> notify `heartbeat-watchdog` and propose the next
+  window.
 
 ## Inputs
-- User/task context
-- Orchestration and lifecycle event context
+- Continuity mini-plan, resume timing, orchestration/lifecycle event context
 
 ## Outputs
-- Recommendations
-- Structured actions and handoff data
+- A persisted resume schedule and resume/missed-window signals
