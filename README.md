@@ -74,7 +74,7 @@ Read the full contract and merge rules in `docs/downstream-import-contract.md` a
 
 Use **`afb_init`** once (or when you deliberately refresh) to vendor trunk (and optional pack checkouts) into a downstream repo: `.agents/`, additive `agents.yml` merge, Spec Kit scaffold when `.specify/` is missing, optional `.cursor/` rules/skills, root AI entry points (`AGENTS.md`, `CLAUDE.md`, `GEMINI.md`, `.github/copilot-instructions.md`), and **`ai/memory/memory.md`** as canonical memory. **Commit those files** and work only in your repo afterward; rerun `afb_init` only when you want to merge upstream changes again.
 
-There is **no npm/PyPI/Maven package** for this flow: obtain a **pinned tag** (clone or zip), run `scripts/afb_init.ps1` against your project root, then **one-time copy + commit** — or run **`scripts/afb_bootstrap.ps1`** to download the tagged release archives from GitHub and invoke `afb_init` for you ([`docs/afb-init.md`](docs/afb-init.md#download-release-zip--run-afb_bootstrapps1)). A Git submodule or build task is **optional** convenience, not required.
+There is **no npm/PyPI/Maven package** for this flow: obtain a **pinned tag** (clone or zip), run `scripts/afb_init.sh` against your project root, then **one-time copy + commit** — or run **`scripts/afb_bootstrap.sh`** to download the tagged release archives from GitHub and invoke `afb_init` for you ([`docs/afb-init.md`](docs/afb-init.md#download-release-zip--run-afb_bootstrapsh)). A Git submodule or build task is **optional** convenience, not required.
 
 ### Manual integration (recommended)
 
