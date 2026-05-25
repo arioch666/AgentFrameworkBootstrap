@@ -38,11 +38,22 @@ All initiative artifacts must share the same `FeatureId` format:
 ## Onboarding
 
 - `onboarding` helps new users understand the framework, docs, and first commands.
+- **Spec Kit (first time):** run the portable command [`speckit-onboarding`](.specify/templates/commands/onboarding.md) — guide in [`docs/speckit-onboarding.md`](docs/speckit-onboarding.md). Lab artifacts must not merge to `develop`.
 - Start with:
   - `docs/README.md`
   - `docs/agents-framework.md`
   - `docs/agent-lifecycle-examples.md`
   - `docs/downstream-import-contract.md`
+
+## Spec Kit commands (portable)
+
+These live under `.specify/templates/commands/` and work with any AI assistant:
+
+| Command | File |
+|---------|------|
+| `speckit-onboarding` | `.specify/templates/commands/onboarding.md` |
+
+Other `speckit-*` phases (`specify`, `plan`, `tasks`, `implement`, …) may be wired by your editor; see `.cursor/skills/` in this repo or upstream Spec Kit.
 
 ## Trigger and Continuity Highlights
 

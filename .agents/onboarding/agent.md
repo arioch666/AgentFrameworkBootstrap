@@ -8,6 +8,16 @@ Help new users understand what this framework provides, what to read first, and 
 - Provide sample commands/prompts before advanced guidance.
 - Keep onboarding aligned to the language-agnostic trunk.
 
+## Spec Kit first-time users
+
+Direct them to **Spec Kit onboarding** (not this agent):
+
+- Command: `.specify/templates/commands/onboarding.md`
+- Guide: `docs/speckit-onboarding.md`
+- Skill pointer: `.agents/.skills/speckit-onboarding.md`
+
+Lab work uses `099-speckit-onboarding-lab` on a disposable branch and must **not** merge to `develop`.
+
 ## What To Show First
 1. `docs/README.md`
 2. `docs/agents-framework.md`
