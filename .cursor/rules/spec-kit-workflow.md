@@ -6,6 +6,8 @@ When working in this repository:
 - Use the artifacts under `.specify/` as the source of truth.
 - Ensure documentation updates are represented as a spec initiative (not an afterthought).
 
+**First time with Spec Kit?** Follow [`docs/speckit-onboarding.md`](../../docs/speckit-onboarding.md) and execute [`.specify/templates/commands/onboarding.md`](../../.specify/templates/commands/onboarding.md) (any AI provider).
+
 If you are unsure what to do next, start from:
 
 1. `.specify/memory/constitution.md`

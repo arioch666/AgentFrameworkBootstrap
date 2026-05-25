@@ -118,7 +118,9 @@ Then register the agent in `agents.yml`:
 
 ### 1.5) Onboard To The Framework
 
-Use the onboarding materials first:
+**New to Spec Kit?** Run the guided tutorial: [`docs/speckit-onboarding.md`](docs/speckit-onboarding.md) (command file: `.specify/templates/commands/onboarding.md`). Works with any AI assistant; lab work stays off `develop`.
+
+Use the framework onboarding materials when you need agents and docs:
 
 1. Read `docs/README.md`
 2. Read `docs/agents-framework.md`

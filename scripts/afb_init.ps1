@@ -116,6 +116,7 @@ function Initialize-AfbSpecKitScaffold {
         $need = @(
             (Join-Path $specDst 'integration.json'),
             (Join-Path $specDst 'templates\agent-file-template.md'),
+            (Join-Path $specDst 'templates\commands\onboarding.md'),
             (Join-Path $specDst 'scripts\powershell\common.ps1')
         )
         foreach ($p in $need) {

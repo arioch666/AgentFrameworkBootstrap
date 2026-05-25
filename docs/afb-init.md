@@ -294,7 +294,7 @@ From a clone of **AgentFrameworkBootstrap**:
 
 1. **Agents & skills** — Merge-copy `.agents/` (including `.agents/.skills/`).
 2. **`agents.yml`** — If missing, copied from trunk; if present, **additive merge** (new agent blocks + missing `delegation_matrix.orchestration.can_delegate_to` entries). Implemented in [scripts/lib/afb_merge_agents.ps1](../scripts/lib/afb_merge_agents.ps1) (no YAML package dependency).
-3. **Spec Kit** — If `.specify/` **does not exist**, copies `templates/`, `scripts/`, `workflows/`, `integrations/`, `integration.json`, `init-options.json`, and `memory/constitution.md`. Does **not** copy example initiatives under `.specify/specs/*`. If `.specify/` **already exists**, scaffolding is **skipped**; a short validation warning lists common missing files.
+3. **Spec Kit** — If `.specify/` **does not exist**, copies `templates/` (including `templates/commands/onboarding.md` for **speckit-onboarding**), `scripts/`, `workflows/`, `integrations/`, `integration.json`, `init-options.json`, and `memory/constitution.md`. Does **not** copy example initiatives under `.specify/specs/*`. If `.specify/` **already exists**, scaffolding is **skipped**; a short validation warning lists common missing files.
 4. **Cursor** — Merge-copy `.cursor/` (rules + skills) unless `-SkipCursor`.
 5. **Canonical memory** — Ensures [`ai/memory/memory.md`](../ai/memory/memory.md) exists and rewrites each `.agents/<agent>/.memory/memory.md` to a **delegated** stub pointing at the canonical file (unless `-NoCanonicalMemory`).
 
